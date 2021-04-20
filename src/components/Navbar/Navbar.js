@@ -13,12 +13,14 @@ import { Link, useLocation } from "react-router-dom";
 
 import logo from "../../assets/commerce.png";
 import useStyles from "./styles";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase";
 
 const PrimarySearchAppBar = ({ totalItems }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const classes = useStyles();
   const location = useLocation();
-
+  const user = useAuthState(auth);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
@@ -50,7 +52,7 @@ const PrimarySearchAppBar = ({ totalItems }) => {
       </MenuItem>
     </Menu>
   );
-
+  console.log(user.photoURL);
   return (
     <>
       <AppBar position="fixed" className={classes.appBar} color="inherit">
@@ -67,9 +69,19 @@ const PrimarySearchAppBar = ({ totalItems }) => {
               alt="commerce.js"
               height="25px"
               className={classes.image}
+              onClick={() => auth.signOut()}
             />{" "}
             Commerce.js
           </Typography>
+          <Typography style={{ backgroundColor: "blue" }}>
+            {" "}
+            <img
+              src={user?.photoURL}
+              alt={user?.displayName}
+              onClick={() => auth.signOut()}
+            />
+          </Typography>
+
           <div className={classes.grow} />
           {location.pathname === "/" && (
             <div className={classes.button}>
