@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import SignUp from "./components/Signup";
 import { auth } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Spinner from "react-spinkit";
 const App = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
@@ -79,6 +80,29 @@ const App = () => {
   }, []);
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  if (loading) {
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          paddingTop: "100px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1>loading... Please Wait</h1>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+          <Spinner name="ball-spin-fade-loader" color="purple" fadeIn="none" />
+        </div>
+      </div>
+    );
+  }
   if (!user && render) {
     return (
       <Router>
